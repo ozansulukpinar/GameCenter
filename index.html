@@ -5,66 +5,114 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
-    .line{
-        display: flex;
-    }
-
-    .box{
-        width: 25%;
-        border: 1px solid black;
-        height: 10vh;
-        border-radius: 5%;
-    }
-
-    #main{
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%);
-        text-align: center;
-        width: 100%;
-    }
+        #main{
+            position: absolute;
+            top: 25%;
+            left: 50%;
+            transform: translate(-50%);
+            text-align: center;
+        }
     </style>
 </head>
 
 <body>
-    <div id="main">
-        <div class="line">
-            <div class="box">
-                <a href="https://ozansulukpinar.github.io/Barbooth/" target="_blank">Barbooth</a>
-            </div>
-            &nbsp;
-            <div class="box">
-                <a href="https://ozansulukpinar.github.io/RussianRoulette/" target="_blank">Russian Roulette</a>
-            </div>
-            &nbsp;
-            <div class="box">
-                <a href="https://ozansulukpinar.github.io/FindMyRGB/" target="_blank">Find My RGB</a>
-            </div>
-            &nbsp;
-            <div class="box">
-                <a href="https://ozansulukpinar.github.io/TicTacToe/" target="_blank">Tic Tac Toe</a>
-            </div>
-        </div>
-        &nbsp;
-        <div class="line">
-            <div class="box">
-                <a href="https://ozansulukpinar.github.io/RockPaperScissors/" target="_blank">Rock Paper Scissors</a>
-            </div>
-            &nbsp;
-            <div class="box">
-                <a href="https://ozansulukpinar.github.io/ReactionTest/" target="_blank">Reaction Test</a>
-            </div>
-            &nbsp;
-            <div class="box">
-                <a href="https://ozansulukpinar.github.io/ChimpanzeeTest/" target="_blank">Chimpanzee Test</a>
-            </div>
-            &nbsp;
-            <div class="box">
-                <a href="https://ozansulukpinar.github.io/GlassBridge/" target="_blank">Glass Bridge</a>
-            </div>
-        </div>
-    </div>
+    <div id="main"></div>
+
+    <script>
+        var parentDiv;
+        var newUrlArray = [];
+        var urls = [
+                "https://ozansulukpinar.github.io/Barbooth/",
+                "https://ozansulukpinar.github.io/RussianRoulette/",
+                "https://ozansulukpinar.github.io/FindMyRGB/",
+                "https://ozansulukpinar.github.io/TicTacToe/",               
+                "https://ozansulukpinar.github.io/RockPaperScissors/",
+                "https://ozansulukpinar.github.io/ReactionTest/",
+                "https://ozansulukpinar.github.io/ChimpanzeeTest/",
+                "https://ozansulukpinar.github.io/GlassBridge/"
+        ];
+
+        recreateUrlArray();
+        drawBoxes();
+
+        function recreateUrlArray(){
+            var randomIndex = Math.floor(Math.random() * urls.length);
+            newUrlArray.push(urls[randomIndex]);
+            urls.splice(randomIndex, 1);
+
+            if(urls.length > 0){
+                recreateUrlArray();
+            }
+        }
+
+        function drawBoxes(){
+            var index = 0;
+            var length = newUrlArray.length;
+
+            var h1 = document.createElement("h1");
+            h1.innerHTML = "Game Center";
+            document.getElementById("main").appendChild(h1);
+
+            newUrlArray.forEach(element => {                
+
+                var div = document.createElement("div");
+                div.innerHTML = "?";
+                div.style.height = "10vw";
+                div.style.width = "10vw";
+                div.style.border = "1px solid black";
+                div.style.display = "table-cell";
+                div.style.verticalAlign = "middle";
+                div.style.fontSize = "xxx-large";
+                div.classList.add("box");
+                div.setAttribute("id", index);
+                
+                if(index == 0 || index == length / 2){
+                    parentDiv = document.createElement("div");
+                    parentDiv.classList.add("line");
+                    parentDiv.appendChild(div);
+                    document.getElementById("main").appendChild(parentDiv);
+                }
+                else{                    
+                    parentDiv.appendChild(div);                 
+                    document.getElementById("main").appendChild(parentDiv);
+                }
+
+                changeColor(index);
+
+                index++;
+            });
+        }
+        
+        function openGame(id){
+            window.open(newUrlArray[id]);
+        }
+        
+        function changeColor(id){
+            var div = document.getElementById(id);
+            div.style.backgroundColor = "rgb(" + getRandomRGBNumber() + ", " + getRandomRGBNumber() + ", " + getRandomRGBNumber() + ")";
+        }
+
+        function getRandomRGBNumber(){
+            return Math.floor(Math.random() * 256);
+        }
+
+        var interval = window.setInterval(function(){
+            var randomId = Math.floor(Math.random() * newUrlArray.length);
+            changeColor(randomId);
+        },250);
+
+        var loadInterval = window.setInterval(function(){
+            window.onload();
+        }, 7500);
+
+        document.addEventListener('click', (e) => {
+                let elementId = e.target.id;
+                if (elementId !== '' && elementId !== 'main') {
+                    openGame(elementId);
+                }
+            }
+        );
+    </script>
 </body>
 
 </html>
