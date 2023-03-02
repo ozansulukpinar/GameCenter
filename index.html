@@ -35,6 +35,10 @@
         recreateUrlArray();
         drawBoxes();
 
+        setTimeout(function (){
+            confirm("Please select a box");
+        }, 10);
+
         function recreateUrlArray(){
             var randomIndex = Math.floor(Math.random() * urls.length);
             newUrlArray.push(urls[randomIndex]);
@@ -78,13 +82,22 @@
                 }
 
                 changeColor(index);
-
+                
                 index++;
             });
         }
-        
-        function openGame(id){
-            window.open(newUrlArray[id]);
+
+        function copyClipboard(id){            
+            const copyURL = async () => {
+                try {
+                    await navigator.clipboard.writeText(newUrlArray[id]);
+                    alert("Game URL is copied to clipboard!");
+                } catch (error) {
+                    alert("Failed to copy: ", error);
+                }
+            }
+            
+            copyURL();
         }
         
         function changeColor(id){
@@ -102,13 +115,15 @@
         },250);
 
         var loadInterval = window.setInterval(function(){
-            window.onload();
-        }, 7500);
+            urls= newUrlArray;
+            newUrlArray = [];
+            recreateUrlArray();
+        }, 2500);
 
         document.addEventListener('click', (e) => {
                 let elementId = e.target.id;
                 if (elementId !== '' && elementId !== 'main') {
-                    openGame(elementId);
+                    copyClipboard(elementId);
                 }
             }
         );
