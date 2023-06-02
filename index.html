@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
-        #main{
+        #main {
             position: absolute;
             top: 25%;
             left: 50%;
@@ -22,34 +22,35 @@
         var parentDiv;
         var newUrlArray = [];
         var urls = [
-                "https://ozansulukpinar.github.io/Barbooth/",
-                "https://ozansulukpinar.github.io/RussianRoulette/",
-                "https://ozansulukpinar.github.io/FindMyRGB/",
-                "https://ozansulukpinar.github.io/TicTacToe/",               
-                "https://ozansulukpinar.github.io/RockPaperScissors/",
-                "https://ozansulukpinar.github.io/ReactionTest/",
-                "https://ozansulukpinar.github.io/ChimpanzeeTest/",
-                "https://ozansulukpinar.github.io/GlassBridge/"
+            "https://ozansulukpinar.github.io/Barbooth/",
+            "https://ozansulukpinar.github.io/RussianRoulette/",
+            "https://ozansulukpinar.github.io/FindMyRGB/",
+            "https://ozansulukpinar.github.io/TicTacToe/",
+            "https://ozansulukpinar.github.io/RockPaperScissors/",
+            "https://ozansulukpinar.github.io/ReactionTest/",
+            "https://ozansulukpinar.github.io/ChimpanzeeTest/",
+            "https://ozansulukpinar.github.io/GlassBridge/",
+            "https://ozansulukpinar.github.io/MemoryGame/"
         ];
 
         recreateUrlArray();
         drawBoxes();
 
-        setTimeout(function (){
+        setTimeout(function () {
             confirm("Please select a box");
         }, 10);
 
-        function recreateUrlArray(){
+        function recreateUrlArray() {
             var randomIndex = Math.floor(Math.random() * urls.length);
             newUrlArray.push(urls[randomIndex]);
             urls.splice(randomIndex, 1);
 
-            if(urls.length > 0){
+            if (urls.length > 0) {
                 recreateUrlArray();
             }
         }
 
-        function drawBoxes(){
+        function drawBoxes() {
             var index = 0;
             var length = newUrlArray.length;
 
@@ -57,7 +58,7 @@
             h1.innerHTML = "Game Center";
             document.getElementById("main").appendChild(h1);
 
-            newUrlArray.forEach(element => {                
+            newUrlArray.forEach(element => {
 
                 var div = document.createElement("div");
                 div.innerHTML = "?";
@@ -69,25 +70,25 @@
                 div.style.fontSize = "xxx-large";
                 div.classList.add("box");
                 div.setAttribute("id", index);
-                
-                if(index == 0 || index == length / 2){
+
+                if (index == 0 || index == length / 3 || index == 2 * (length / 3)) {
                     parentDiv = document.createElement("div");
                     parentDiv.classList.add("line");
                     parentDiv.appendChild(div);
                     document.getElementById("main").appendChild(parentDiv);
                 }
-                else{                    
-                    parentDiv.appendChild(div);                 
+                else {
+                    parentDiv.appendChild(div);
                     document.getElementById("main").appendChild(parentDiv);
                 }
 
                 changeColor(index);
-                
+
                 index++;
             });
         }
 
-        function copyClipboard(id){            
+        function copyClipboard(id) {
             const copyURL = async () => {
                 try {
                     await navigator.clipboard.writeText(newUrlArray[id]);
@@ -96,36 +97,36 @@
                     alert("Failed to copy: ", error);
                 }
             }
-            
+
             copyURL();
         }
-        
-        function changeColor(id){
+
+        function changeColor(id) {
             var div = document.getElementById(id);
             div.style.backgroundColor = "rgb(" + getRandomRGBNumber() + ", " + getRandomRGBNumber() + ", " + getRandomRGBNumber() + ")";
         }
 
-        function getRandomRGBNumber(){
+        function getRandomRGBNumber() {
             return Math.floor(Math.random() * 256);
         }
 
-        var interval = window.setInterval(function(){
+        var interval = window.setInterval(function () {
             var randomId = Math.floor(Math.random() * newUrlArray.length);
             changeColor(randomId);
-        },250);
+        }, 250);
 
-        var loadInterval = window.setInterval(function(){
-            urls= newUrlArray;
+        var loadInterval = window.setInterval(function () {
+            urls = newUrlArray;
             newUrlArray = [];
             recreateUrlArray();
         }, 2500);
 
         document.addEventListener('click', (e) => {
-                let elementId = e.target.id;
-                if (elementId !== '' && elementId !== 'main') {
-                    copyClipboard(elementId);
-                }
+            let elementId = e.target.id;
+            if (elementId !== '' && elementId !== 'main') {
+                copyClipboard(elementId);
             }
+        }
         );
     </script>
 </body>
