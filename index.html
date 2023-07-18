@@ -30,7 +30,8 @@
             "https://ozansulukpinar.github.io/ReactionTest/",
             "https://ozansulukpinar.github.io/ChimpanzeeTest/",
             "https://ozansulukpinar.github.io/GlassBridge/",
-            "https://ozansulukpinar.github.io/MemoryGame/"
+            "https://ozansulukpinar.github.io/MemoryGame/",
+            "https://ozansulukpinar.github.io/GuessNumber/"
         ];
 
         recreateUrlArray();
@@ -71,7 +72,7 @@
                 div.classList.add("box");
                 div.setAttribute("id", index);
 
-                if (index == 0 || index == length / 3 || index == 2 * (length / 3)) {
+                if (index == 0 || index == length / 2) {
                     parentDiv = document.createElement("div");
                     parentDiv.classList.add("line");
                     parentDiv.appendChild(div);
